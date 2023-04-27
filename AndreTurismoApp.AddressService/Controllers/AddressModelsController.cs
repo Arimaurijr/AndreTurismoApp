@@ -83,8 +83,8 @@ namespace AndreTurismoApp.AddressService.Controllers
 
         // POST: api/AddressModels
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<AddressModel>> PostAddressModel(AddressModel addressModel)
+        [HttpPost("{CEP},{Numero}")]
+        public async Task<ActionResult<AddressModel>> PostAddressModel(string CEP, string Numero, AddressModel addressModel)
         {
           if (_context.AddressModel == null)
           {
