@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace AndreTurismoApp.AddressService.Controllers
+namespace AndreTurismoApp._AddressService.Controllers
 {
     [ApiController]
     [Route("[controller]")]

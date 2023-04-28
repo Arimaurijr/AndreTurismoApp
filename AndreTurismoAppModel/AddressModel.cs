@@ -9,11 +9,11 @@ namespace AndreTurismoAppModels
     public class AddressModel
     {
         public readonly static string INSERIR_ENDERECO = 
-            "insert into address" + 
-            "(logradouro,numero,bairro,cep,complemento,data_cadastro_endereco,id_cidade_endereco)" +
+            "insert into addressModel" + 
+            "(logradouro,numero,bairro,cep,complemento,data_cadastro_endereco,CidadeId)" +
      "values(@Logradouro,@Numero,@Bairro,@CEP,@Complemento,@Data_Cadastro_Endereco,@Cidade)" + "select cast(scope_identity() as int);";
 
-        public readonly static string UPDATE = "update address set @coluna = '@valor' ";
+        public readonly static string UPDATE = "update addressModel set @coluna = '@valor' ";
 
         public int Id { get; set; }
         public string Logradouro { get; set; }

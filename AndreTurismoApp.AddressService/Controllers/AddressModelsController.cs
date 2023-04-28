@@ -5,13 +5,15 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using AndreTurismoApp.AddressService.Data;
+using AndreTurismoApp._AddressService.Data;
 using AndreTurismoAppModels;
 using System.Runtime.ConstrainedExecution;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using AndreTurismoApp.AddressService.Service;
+using AndreTurismoApp._AddressService.Service;
+using AndreTurismoAppService;
+using AndreTurismoAppRepository;
 
-namespace AndreTurismoApp.AddressService.Controllers
+namespace AndreTurismoApp._AddressService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -111,9 +113,20 @@ namespace AndreTurismoApp.AddressService.Controllers
             CityModel cidade = new CityModel();
             cidade.Descricao = endereco.City;
             cidade.Data_Cadastro_Cidade = DateTime.Now;
-            cidade = new CityService().InserirCidade(cidade);
-            _context.AddressModel.Add(addressModel);
-            await _context.SaveChangesAsync();
+            cidade = new CityRepository().InserirCidade(cidade);
+
+            addressModel.Logradouro = endereco.Logradouro;
+            addressModel.Cidade = cidade;
+            addressModel.Data_Cadastro_Endereco = DateTime.Now;
+            addressModel.Bairro = endereco.Bairro;
+            addressModel.Complemento = endereco.Complemento;
+            addressModel.CEP = endereco.CEP;
+            addressModel.Numero = int.Parse(Numero);
+
+            addressModel = new AddressRepository().InserirEndereco(addressModel);  
+
+           // _context.AddressModel.Add(addressModel);
+            //await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetAddressModel", new { id = addressModel.Id }, addressModel);
         }

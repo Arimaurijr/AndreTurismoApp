@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using AndreTurismoAppModels;
 
-namespace AndreTurismoApp.AddressService.Data
+namespace AndreTurismoApp._AddressService.Data
 {
     public class AndreTurismoAppAddressServiceContext : DbContext
     {

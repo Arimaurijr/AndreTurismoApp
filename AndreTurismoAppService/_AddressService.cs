@@ -8,7 +8,7 @@ using AndreTurismoAppRepository;
 
 namespace AndreTurismoAppService
 {
-    public class AddressService
+    public class _AddressService
     {
         public AddressModel InserirEndereco(AddressModel endereco)
         {

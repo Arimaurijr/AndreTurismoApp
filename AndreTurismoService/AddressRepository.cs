@@ -17,7 +17,8 @@ namespace AndreTurismoAppRepository
         public string Conn { get; set; }
         public AddressRepository()
         {
-            Conn = ConfigurationManager.ConnectionStrings["servicoturismo"].ConnectionString;
+            //Conn = ConfigurationManager.ConnectionStrings["servicoturismo"].ConnectionString;
+            Conn = @"Server=(localdb)\MSSQLLocalDB; Integrated Security=true; AttachDbFileName=C:\Users\adm\AndreTurismoApp.AddressService.Data.mdf";
         }
 
         public AddressModel InserirEndereco(AddressModel endereco)

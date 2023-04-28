@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using AndreTurismoApp.AddressService.Data;
+using AndreTurismoApp._AddressService.Data;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AndreTurismoAppAddressServiceContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("AndreTurismoAppAddressServiceContext") ?? throw new InvalidOperationException("Connection string 'AndreTurismoAppAddressServiceContext' not found.")));

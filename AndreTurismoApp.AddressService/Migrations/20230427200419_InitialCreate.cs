@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace AndreTurismoApp.AddressService.Migrations
+namespace AndreTurismoApp._AddressService.Migrations
 {
     public partial class InitialCreate : Migration
     {

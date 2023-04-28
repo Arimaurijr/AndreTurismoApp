@@ -1,7 +1,7 @@
 ﻿using AndreTurismoAppModels;
 using Newtonsoft.Json;
 
-namespace AndreTurismoApp.AddressService.Service
+namespace AndreTurismoApp._AddressService.Service
 {
     public class PostOffice
     {

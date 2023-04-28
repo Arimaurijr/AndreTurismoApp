@@ -19,8 +19,8 @@ namespace AndreTurismoAppRepository
 
         public CityRepository()
         {
-            Conn = ConfigurationManager.ConnectionStrings["ConexaoCEP"].ConnectionString;
-      
+            //Conn = ConfigurationManager.ConnectionStrings["ConexaoCEP"].ConnectionString;
+            Conn = @"Server=(localdb)\MSSQLLocalDB; Integrated Security=true; AttachDbFileName=C:\Users\adm\AndreTurismoApp.AddressService.Data.mdf";
         }
 
         public CityModel InserirCidade(CityModel city)

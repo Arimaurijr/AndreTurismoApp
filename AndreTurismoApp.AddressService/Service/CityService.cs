@@ -1,8 +1,8 @@
-﻿using AndreTurismoApp.AddressService;
+﻿using AndreTurismoApp._AddressService;
 using AndreTurismoAppModels;
 using AndreTurismoAppRepository;
 
-namespace AndreTurismoApp.AddressService.Service
+namespace AndreTurismoApp._AddressService.Service
 {
     public class CityService
     {
