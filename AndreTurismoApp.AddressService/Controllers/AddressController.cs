@@ -12,18 +12,21 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using AndreTurismoApp._AddressService.Service;
 using AndreTurismoAppService;
 using AndreTurismoAppRepository;
+using System.Net;
 
 namespace AndreTurismoApp._AddressService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AddressModelsController : ControllerBase
+    public class AddressController : ControllerBase
     {
         private readonly AndreTurismoAppAddressServiceContext _context;
+        private readonly PostOfficeService _postOfficeService;  
 
-        public AddressModelsController(AndreTurismoAppAddressServiceContext context)
+        public AddressController(AndreTurismoAppAddressServiceContext context, PostOfficeService postOfficeService)
         {
             _context = context;
+            _postOfficeService = postOfficeService;
         }
 
         // GET: api/AddressModels
@@ -40,7 +43,7 @@ namespace AndreTurismoApp._AddressService.Controllers
         public AddressDTO GetPostOffices(string cep)
         {
             //Exemplo de chamada de serviço - TESTE
-            return PostOffice.GetAddress(cep).Result;
+            return _postOfficeService.GetAddress(cep).Result;
         }
 
 
@@ -104,31 +107,15 @@ namespace AndreTurismoApp._AddressService.Controllers
           {
               return Problem("Entity set 'AndreTurismoAppAddressServiceContext.AddressModel'  is null.");
           }
-            var endereco = GetPostOffices(CEP);
-            if(endereco == null)
-            {
-                return NotFound();
-            }
 
-            CityModel cidade = new CityModel();
-            cidade.Descricao = endereco.City;
-            cidade.Data_Cadastro_Cidade = DateTime.Now;
-            cidade = new CityRepository().InserirCidade(cidade);
+          AddressDTO endereco =  await _postOfficeService.GetAddress(CEP);
+          AddressModel endereco_model = new AddressModel(endereco);
+          endereco_model.CEP = CEP;
+          _context.AddressModel.Add(endereco_model);
+          await _context.SaveChangesAsync();
 
-            addressModel.Logradouro = endereco.Logradouro;
-            addressModel.Cidade = cidade;
-            addressModel.Data_Cadastro_Endereco = DateTime.Now;
-            addressModel.Bairro = endereco.Bairro;
-            addressModel.Complemento = endereco.Complemento;
-            addressModel.CEP = endereco.CEP;
-            addressModel.Numero = int.Parse(Numero);
 
-            addressModel = new AddressRepository().InserirEndereco(addressModel);  
-
-           // _context.AddressModel.Add(addressModel);
-            //await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetAddressModel", new { id = addressModel.Id }, addressModel);
+            return CreatedAtAction("GetAddressModel", new { id = endereco_model.Id }, endereco_model);
         }
 
         // DELETE: api/AddressModels/5

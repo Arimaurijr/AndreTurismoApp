@@ -3,14 +3,14 @@ using Newtonsoft.Json;
 
 namespace AndreTurismoApp._AddressService.Service
 {
-    public class PostOffice
+    public class PostOfficeService
     {
         static readonly HttpClient endereco = new HttpClient();
-        public static async Task<AddressDTO> GetAddress(string cep)
+        public async Task<AddressDTO> GetAddress(string cep)
         {
             try
             {
-                HttpResponseMessage response = await PostOffice.endereco.GetAsync("https://viacep.com.br/ws/" + cep + "/json/");
+                HttpResponseMessage response = await PostOfficeService.endereco.GetAsync("https://viacep.com.br/ws/" + cep + "/json/");
                 response.EnsureSuccessStatusCode();
                 string ender = await response.Content.ReadAsStringAsync();
                 var end = JsonConvert.DeserializeObject<AddressDTO>(ender);

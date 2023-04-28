@@ -15,6 +15,15 @@ namespace AndreTurismoAppModels
 
         public readonly static string UPDATE = "update addressModel set @coluna = '@valor' ";
 
+        public AddressModel() { }
+
+        public AddressModel(AddressDTO addressDTO)
+        {
+            Logradouro = addressDTO.Logradouro;
+            Bairro = addressDTO.Bairro;
+            Cidade = new CityModel { Descricao = addressDTO.City, Data_Cadastro_Cidade = DateTime.Now };
+            Complemento = addressDTO.Complemento;
+        }
         public int Id { get; set; }
         public string Logradouro { get; set; }
         public int Numero { get; set; }
