@@ -13,7 +13,7 @@ using Dapper;
 namespace AndreTurismoAppRepository
 {
     
-    public class TicketRepository
+    public class TicketRepository : ITicketRepository   
     {
         public string Conn { get; set; }
 

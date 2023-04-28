@@ -12,7 +12,7 @@ using AndreTurismoAppModels;
 
 namespace AndreTurismoAppRepository
 {
-    public class CityRepository
+    public class CityRepository : ICityRepository
     {
         
         public string Conn { get; set; }
