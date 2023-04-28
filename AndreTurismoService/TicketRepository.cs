@@ -10,14 +10,14 @@ using System.Threading.Tasks;
 using AndreTurismoAppModels;
 using Dapper;
 
-namespace AndreTurismoService
+namespace AndreTurismoAppRepository
 {
     
-    public class TicketService
+    public class TicketRepository
     {
         public string Conn { get; set; }
 
-        public TicketService()
+        public TicketRepository()
         {
             Conn = ConfigurationManager.ConnectionStrings["servicoturismo"].ConnectionString;
         }
@@ -30,9 +30,9 @@ namespace AndreTurismoService
                 db.Open();
                 StringBuilder montagem_query = new StringBuilder();
                 montagem_query.Append(TicketModel.INSERIR_PASSAGEM);
-                montagem_query.Replace("@Origem", new AddressService().InserirEndereco(passagem.Origem).Id.ToString());
-                montagem_query.Replace("@Destino", new AddressService().InserirEndereco(passagem.Destino).Id.ToString());
-                montagem_query.Replace("@Cliente", new ClientService().InserirCliente(passagem.Cliente).Id.ToString());
+                montagem_query.Replace("@Origem", new AddressRepository().InserirEndereco(passagem.Origem).Id.ToString());
+                montagem_query.Replace("@Destino", new AddressRepository().InserirEndereco(passagem.Destino).Id.ToString());
+                montagem_query.Replace("@Cliente", new ClientRepository().InserirCliente(passagem.Cliente).Id.ToString());
 
                 passagem.Id = (int)db.ExecuteScalar(montagem_query.ToString(), passagem);
             }
@@ -71,9 +71,9 @@ namespace AndreTurismoService
                 dr.Close();
                 db.Close();
 
-                passagem.Origem = new AddressService().RetornarEndereco(id_origem);
-                passagem.Destino = new AddressService().RetornarEndereco(id_destino);
-                passagem.Cliente = new ClientService().RetornarCliente(id_cliente);
+                passagem.Origem = new AddressRepository().RetornarEndereco(id_origem);
+                passagem.Destino = new AddressRepository().RetornarEndereco(id_destino);
+                passagem.Cliente = new ClientRepository().RetornarCliente(id_cliente);
 
 
              }

@@ -10,12 +10,12 @@ using System.Threading.Tasks;
 using AndreTurismoAppModels;
 using Dapper;
 
-namespace AndreTurismoService
+namespace AndreTurismoAppRepository
 {
-    public class AddressService
+    public class AddressRepository
     {
         public string Conn { get; set; }
-        public AddressService()
+        public AddressRepository()
         {
             Conn = ConfigurationManager.ConnectionStrings["servicoturismo"].ConnectionString;
         }
@@ -26,7 +26,7 @@ namespace AndreTurismoService
             using (var db = new SqlConnection(Conn))
             {
                 db.Open();
-                var query = AddressModel.INSERIR_ENDERECO.Replace("@Cidade", new CityService().InserirCidade(endereco.Cidade).Id.ToString());
+                var query = AddressModel.INSERIR_ENDERECO.Replace("@Cidade", new CityRepository().InserirCidade(endereco.Cidade).Id.ToString());
                 endereco.Id = (int)db.ExecuteScalar(query, endereco);
             }
 
@@ -69,7 +69,7 @@ namespace AndreTurismoService
                 dr.Close();
                 db.Close();
 
-                endereco.Cidade = new CityService().RetornarCidade(id_cidade);
+                endereco.Cidade = new CityRepository().RetornarCidade(id_cidade);
 
             }
 

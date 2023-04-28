@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AndreTurismoApp.AddressService.Data;
 using AndreTurismoAppModels;
+using System.Runtime.ConstrainedExecution;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using AndreTurismoApp.AddressService.Service;
 
 namespace AndreTurismoApp.AddressService.Controllers
 {
@@ -25,21 +28,29 @@ namespace AndreTurismoApp.AddressService.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AddressModel>>> GetAddressModel()
         {
-          if (_context.AddressModel == null)
-          {
-              return NotFound();
-          }
+            if (_context.AddressModel == null)
+            {
+                return NotFound();
+            }
             return await _context.AddressModel.ToListAsync();
         }
+        [HttpGet("{cep:length(8)}", Name = "GetAddress_1")]
+        public AddressDTO GetPostOffices(string cep)
+        {
+            //Exemplo de chamada de serviço - TESTE
+            return PostOffice.GetAddress(cep).Result;
+        }
+
 
         // GET: api/AddressModels/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<AddressModel>> GetAddressModel(int id)
+
+        [HttpGet("{id}", Name = "GetAddress_2")]
+        public async Task<ActionResult<AddressModel>> GetAddressModel_2(int id)
         {
-          if (_context.AddressModel == null)
-          {
-              return NotFound();
-          }
+            if (_context.AddressModel == null)
+            {
+                return NotFound();
+            }
             var addressModel = await _context.AddressModel.FindAsync(id);
 
             if (addressModel == null)
@@ -48,8 +59,9 @@ namespace AndreTurismoApp.AddressService.Controllers
             }
 
             return addressModel;
-        }
 
+        } 
+      
         // PUT: api/AddressModels/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
@@ -90,6 +102,16 @@ namespace AndreTurismoApp.AddressService.Controllers
           {
               return Problem("Entity set 'AndreTurismoAppAddressServiceContext.AddressModel'  is null.");
           }
+            var endereco = GetPostOffices(CEP);
+            if(endereco == null)
+            {
+                return NotFound();
+            }
+
+            CityModel cidade = new CityModel();
+            cidade.Descricao = endereco.City;
+            cidade.Data_Cadastro_Cidade = DateTime.Now;
+            cidade = new CityService().InserirCidade(cidade);
             _context.AddressModel.Add(addressModel);
             await _context.SaveChangesAsync();
 

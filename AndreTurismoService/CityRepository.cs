@@ -10,16 +10,16 @@ using Dapper;
 using System.Data;
 using AndreTurismoAppModels;
 
-namespace AndreTurismoService
+namespace AndreTurismoAppRepository
 {
-    public class CityService
+    public class CityRepository
     {
         
         public string Conn { get; set; }
 
-        public CityService()
+        public CityRepository()
         {
-            Conn = ConfigurationManager.ConnectionStrings["servicoturismo"].ConnectionString;
+            Conn = ConfigurationManager.ConnectionStrings["ConexaoCEP"].ConnectionString;
       
         }
 

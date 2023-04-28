@@ -9,15 +9,15 @@ using System.Threading.Tasks;
 using AndreTurismoAppModels;
 using Dapper;
 
-namespace AndreTurismoService
+namespace AndreTurismoAppRepository
 {
     
-    public class PackageService
+    public class PackageRepository
     {
 
         public string Conn { get; set; }
 
-        public PackageService()
+        public PackageRepository()
 
         {
             Conn = ConfigurationManager.ConnectionStrings["servicoturismo"].ConnectionString;
@@ -32,9 +32,9 @@ namespace AndreTurismoService
                 db.Open();
                 StringBuilder montagem_query = new StringBuilder();
                 montagem_query.Append(PackageModel.INSERIR_PACOTE);
-                montagem_query.Replace("@Hotel_Pacote", new HotelService().InserirHotel(pacote.Hotel_Pacote).Id.ToString());
-                montagem_query.Replace("@Passagem_Pacote", new TicketService().InserirPassagem(pacote.Passagem_Pacote).Id.ToString());
-                montagem_query.Replace("@Cliente_Pacote", new ClientService().InserirCliente(pacote.Cliente_Pacote).Id.ToString());
+                montagem_query.Replace("@Hotel_Pacote", new HotelRepository().InserirHotel(pacote.Hotel_Pacote).Id.ToString());
+                montagem_query.Replace("@Passagem_Pacote", new TicketRepository().InserirPassagem(pacote.Passagem_Pacote).Id.ToString());
+                montagem_query.Replace("@Cliente_Pacote", new ClientRepository().InserirCliente(pacote.Cliente_Pacote).Id.ToString());
 
                 pacote.Id = (int)db.ExecuteScalar(montagem_query.ToString(), pacote);
             }
@@ -70,9 +70,9 @@ namespace AndreTurismoService
                int id_hotel = (int)dr["hotel_pacote"];
                int id_passagem = (int)dr["passagem_pacote"];
                int id_cliente = (int)dr["cliente_pacote"];
-               pacote.Hotel_Pacote = new HotelService().RetornarHotel(id_hotel);
-               pacote.Passagem_Pacote = new TicketService().RetornarPassagem(id_passagem);
-               pacote.Cliente_Pacote = new ClientService().RetornarCliente(id_cliente);
+               pacote.Hotel_Pacote = new HotelRepository().RetornarHotel(id_hotel);
+               pacote.Passagem_Pacote = new TicketRepository().RetornarPassagem(id_passagem);
+               pacote.Cliente_Pacote = new ClientRepository().RetornarCliente(id_cliente);
 
                pacote.Valor_Pacote = (decimal)dr["valor_pacote"];
                pacote.Data_Cadastro_Pacote = (DateTime)dr["data_cadastro_pacote"];
@@ -130,9 +130,9 @@ namespace AndreTurismoService
                 int id_hotel = (int)dr["hotel_pacote"];
                 int id_passagem = (int)dr["passagem_pacote"];
                 int id_cliente = (int)dr["cliente_pacote"];
-                pacote.Hotel_Pacote = new HotelService().RetornarHotel(id_hotel);
-                pacote.Passagem_Pacote = new TicketService().RetornarPassagem(id_passagem);
-                pacote.Cliente_Pacote = new ClientService().RetornarCliente(id_cliente);
+                pacote.Hotel_Pacote = new HotelRepository().RetornarHotel(id_hotel);
+                pacote.Passagem_Pacote = new TicketRepository().RetornarPassagem(id_passagem);
+                pacote.Cliente_Pacote = new ClientRepository().RetornarCliente(id_cliente);
 
                 pacote.Valor_Pacote = (decimal)dr["valor_pacote"];
                 pacote.Data_Cadastro_Pacote = (DateTime)dr["data_cadastro_pacote"];

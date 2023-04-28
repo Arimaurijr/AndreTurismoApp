@@ -9,17 +9,16 @@ using System.Threading.Tasks;
 using AndreTurismoAppModels;
 using Dapper;
 
-namespace AndreTurismoService
+namespace AndreTurismoAppRepository
 {
 
-    public class HotelService
+    public class HotelRepository
     {
         public string Conn { get; set; }
 
-        public HotelService()
+        public HotelRepository()
         {
             Conn = ConfigurationManager.ConnectionStrings["servicoturismo"].ConnectionString;
-
 
         }
 
@@ -29,7 +28,7 @@ namespace AndreTurismoService
             using (var db = new SqlConnection(Conn))
             {
                 db.Open();
-                var query = HotelModel.INSERIR_HOTEL.Replace("@Endereco", new AddressService().InserirEndereco(hotel.Endereco).Id.ToString());
+                var query = HotelModel.INSERIR_HOTEL.Replace("@Endereco", new AddressRepository().InserirEndereco(hotel.Endereco).Id.ToString());
                 hotel.Id = (int)db.ExecuteScalar(query, hotel);
             }
 
@@ -67,7 +66,7 @@ namespace AndreTurismoService
                     dr.Close();
                     db.Close();
 
-                    hotel.Endereco = new AddressService().RetornarEndereco(id_endereco);
+                    hotel.Endereco = new AddressRepository().RetornarEndereco(id_endereco);
 
                 }
 
