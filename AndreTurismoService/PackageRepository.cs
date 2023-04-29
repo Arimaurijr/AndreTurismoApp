@@ -20,8 +20,8 @@ namespace AndreTurismoAppRepository
         public PackageRepository()
 
         {
-            Conn = ConfigurationManager.ConnectionStrings["servicoturismo"].ConnectionString;
-
+            //Conn = ConfigurationManager.ConnectionStrings["servicoturismo"].ConnectionString;
+            Conn = @"Server=(localdb)\MSSQLLocalDB; Integrated Security=true; AttachDbFileName=C:\Users\adm\AndreTurismoApp.AddressService.Data.mdf";
         }
 
         public PackageModel InserirPacote(PackageModel pacote)

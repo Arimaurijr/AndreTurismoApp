@@ -19,7 +19,8 @@ namespace AndreTurismoAppRepository
 
         public ClientRepository()
         {
-            Conn = ConfigurationManager.ConnectionStrings["servicoturismo"].ConnectionString;
+            //Conn = ConfigurationManager.ConnectionStrings["servicoturismo"].ConnectionString;
+            Conn = @"Server=(localdb)\MSSQLLocalDB; Integrated Security=true; AttachDbFileName=C:\Users\adm\AndreTurismoApp.AddressService.Data.mdf";
         }
 
         public ClientModel InserirCliente(ClientModel cliente)

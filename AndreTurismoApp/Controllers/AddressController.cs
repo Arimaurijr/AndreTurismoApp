@@ -1,18 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using AndreTurismoApp._AddressService.Data;
+﻿using AndreTurismoApp.Service;
 using AndreTurismoAppModels;
-using System.Runtime.ConstrainedExecution;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
-using AndreTurismoApp._AddressService.Service;
-using AndreTurismoAppService;
-using AndreTurismoAppRepository;
-using System.Net;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AndreTurismoApp._AddressService.Controllers
 {
@@ -20,25 +8,39 @@ namespace AndreTurismoApp._AddressService.Controllers
     [ApiController]
     public class AddressController : ControllerBase
     {
-        private readonly AndreTurismoAppAddressServiceContext _context;
-        private readonly PostOfficeService _postOfficeService;  
-
-        public AddressController(AndreTurismoAppAddressServiceContext context, PostOfficeService postOfficeService)
+        private readonly AddressService _address;
+        public AddressController(AddressService address)
         {
-            _context = context;
-            _postOfficeService = postOfficeService;
+            _address = address;
         }
 
         // GET: api/AddressModels
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<AddressModel>>> GetAddressModel()
+        public async Task<List<AddressModel>> GetAddressModel()
         {
-            if (_context.AddressModel == null)
-            {
-                return NotFound();
-            }
-            return await _context.AddressModel.Include(a=> a.Cidade).ToListAsync();
+            return await _address.GetAddress();
         }
+        [HttpGet("{id}")]
+        public async Task<AddressModel> GetAddressModelID(int id)
+        {
+            return await _address.GetAddressID(id);
+        }
+        [HttpDelete("{id}")]
+        public async void DeleteAddressID(int id)
+        {
+            _address.DeleteAddressID(id);
+        }
+        [HttpPost("{CEP}, {Numero}")]
+        public async void PostAddress(string CEP, string Numero, AddressModel addressModel)
+        {
+            _address.PostAddress(CEP,Numero,addressModel);
+        }
+        [HttpPut("{id}")]
+        public async void PutAddress(int id, AddressModel address)
+        {
+            _address.PutAddress(id,address);
+        }
+        /*
         [HttpGet("{cep:length(8)}", Name = "GetAddress_1")]
         public AddressDTO GetPostOffices(string cep)
         {
@@ -56,7 +58,7 @@ namespace AndreTurismoApp._AddressService.Controllers
             {
                 return NotFound();
             }
-            var addressModel = await _context.AddressModel.Include(a => a.Cidade).Where(a=> a.Id == id).FirstOrDefaultAsync();
+            var addressModel = await _context.AddressModel.FindAsync(id);
 
             if (addressModel == null)
             {
@@ -78,7 +80,6 @@ namespace AndreTurismoApp._AddressService.Controllers
             }
 
             _context.Entry(addressModel).State = EntityState.Modified;
-            _context.AddressModel.Update(addressModel);
 
             try
             {
@@ -142,5 +143,6 @@ namespace AndreTurismoApp._AddressService.Controllers
         {
             return (_context.AddressModel?.Any(e => e.Id == id)).GetValueOrDefault();
         }
+        */
     }
 }
