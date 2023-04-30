@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AndreTurismoAppModel\AndreTurismoAppModels.csproj" />
-    <ProjectReference Include="..\AndreTurismoService\AndreTurismoAppRepository.csproj" />
   </ItemGroup>
 
 </Project>

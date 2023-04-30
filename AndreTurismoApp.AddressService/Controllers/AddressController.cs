@@ -10,8 +10,6 @@ using AndreTurismoAppModels;
 using System.Runtime.ConstrainedExecution;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using AndreTurismoApp._AddressService.Service;
-using AndreTurismoAppService;
-using AndreTurismoAppRepository;
 using System.Net;
 
 namespace AndreTurismoApp._AddressService.Controllers

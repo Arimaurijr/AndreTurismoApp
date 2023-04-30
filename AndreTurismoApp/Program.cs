@@ -9,6 +9,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<AddressService>();
+builder.Services.AddSingleton<ClientService>();
+builder.Services.AddSingleton<HotelService>();
 
 var app = builder.Build();
 
