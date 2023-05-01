@@ -35,7 +35,7 @@ namespace AndreTurismoApp.Service
             }
             catch (HttpRequestException e)
             {
-                throw;
+                return null;
             }
         }
         public async void DeleteClientID(int id)
