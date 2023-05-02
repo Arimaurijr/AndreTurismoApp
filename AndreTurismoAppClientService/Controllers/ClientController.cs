@@ -25,11 +25,21 @@ namespace AndreTurismoAppClientService.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ClientModel>>> GetClientModel()
         {
-          if (_context.ClientModel == null)
-          {
-              return NotFound();
-          }
-            return await _context.ClientModel.ToListAsync();
+            if (_context.ClientModel == null)
+            {
+                return NotFound();
+            }
+            try
+            {
+                var client = await _context.ClientModel.Include(c => c.Endereco).ToListAsync();
+                return client;
+            }
+            catch(Exception ex) 
+            {
+                throw ex;
+            }
+            
+            
         }
 
         // GET: api/Client/5
@@ -90,8 +100,18 @@ namespace AndreTurismoAppClientService.Controllers
           {
               return Problem("Entity set 'AndreTurismoAppClientServiceContext.ClientModel'  is null.");
           }
-            _context.ClientModel.Add(clientModel);
-            await _context.SaveChangesAsync();
+          var endereco = await _context.EnderecoModel.FindAsync(clientModel.Endereco.Id);
+          if(endereco == null)
+          {
+                //return NoContent();
+                _context.EnderecoModel.Add(clientModel.Endereco);
+                endereco = clientModel.Endereco;
+          }
+          
+          clientModel.Endereco = endereco;
+         
+          _context.ClientModel.Add(clientModel);
+          await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetClientModel", new { id = clientModel.Id }, clientModel);
         }
