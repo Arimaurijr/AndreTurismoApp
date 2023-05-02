@@ -31,7 +31,7 @@ namespace AndreTurismoAppClientService.Controllers
             }
             try
             {
-                var client = await _context.ClientModel.Include(c => c.Endereco).ToListAsync();
+                var client = await _context.ClientModel.Include(c => c.Endereco).Include(c=> c.Endereco.Cidade).ToListAsync();
                 return client;
             }
             catch(Exception ex) 
@@ -100,11 +100,12 @@ namespace AndreTurismoAppClientService.Controllers
           {
               return Problem("Entity set 'AndreTurismoAppClientServiceContext.ClientModel'  is null.");
           }
-          var endereco = await _context.EnderecoModel.FindAsync(clientModel.Endereco.Id);
+          
+          var endereco = await _context.AddressModel.FindAsync(clientModel.Endereco.Id);
           if(endereco == null)
           {
                 //return NoContent();
-                _context.EnderecoModel.Add(clientModel.Endereco);
+                _context.AddressModel.Add(clientModel.Endereco);
                 endereco = clientModel.Endereco;
           }
           
@@ -113,7 +114,7 @@ namespace AndreTurismoAppClientService.Controllers
           _context.ClientModel.Add(clientModel);
           await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetClientModel", new { id = clientModel.Id }, clientModel);
+          return CreatedAtAction("GetClientModel", new { id = clientModel.Id }, clientModel);
         }
 
         // DELETE: api/Client/5

@@ -9,11 +9,11 @@ namespace AndreTurismoApp.Controllers
     public class ClientController : ControllerBase
     {
         private readonly ClientService _client;
-        private readonly AddressService _address;   
-        public ClientController(ClientService client, AddressService address)
+        //private readonly AddressService _address;   
+        public ClientController(ClientService client)
         {
             _client = client;
-            _address = address; 
+            //_address = address; 
         }
 
         // GET: api/AddressModels
@@ -35,6 +35,7 @@ namespace AndreTurismoApp.Controllers
         [HttpPost]
         public async void PostClient(ClientModel clientmodel)
         {
+            /*
             var endereco = clientmodel.Endereco;
             if(_address.GetAddressID(endereco.Id).Result == null)
             {
@@ -48,6 +49,7 @@ namespace AndreTurismoApp.Controllers
                 clientmodel.Endereco.Id = 0;
                 clientmodel.Endereco.Cidade.Id = 0;
             }
+            */
 
             _client.PostClient(clientmodel);
         }

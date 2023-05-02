@@ -15,5 +15,9 @@ namespace AndreTurismoApp.HotelService.Data
         }
 
         public DbSet<AndreTurismoAppModels.HotelModel> HotelModel { get; set; } = default!;
+
+        //public DbSet<AndreTurismoAppModels.AddressModel> EnderecoModel { get; set; } = default!;
+
+        public DbSet<AndreTurismoAppModels.AddressModel> AddressModel { get; set; } = default!;
     }
 }

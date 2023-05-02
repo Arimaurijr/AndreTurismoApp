@@ -15,5 +15,13 @@ namespace AndreTurismoAppPackageService.Data
         }
 
         public DbSet<AndreTurismoAppModels.PackageModel> PackageModel { get; set; } = default!;
+
+        public DbSet<AndreTurismoAppModels.AddressModel> AddressModel { get; set; } = default!;
+
+        public DbSet<AndreTurismoAppModels.HotelModel> HotelModel { get; set; } = default!;
+
+        public DbSet<AndreTurismoAppModels.ClientModel> ClientModel { get; set; } = default!;
+
+        public DbSet<AndreTurismoAppModels.TicketModel> TicketModel { get; set; } = default!;
     }
 }

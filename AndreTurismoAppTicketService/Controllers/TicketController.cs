@@ -90,10 +90,39 @@ namespace AndreTurismoAppTicketService.Controllers
           {
               return Problem("Entity set 'AndreTurismoAppTicketServiceContext.TicketModel'  is null.");
           }
-            _context.TicketModel.Add(ticketModel);
-            await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetTicketModel", new { id = ticketModel.Id }, ticketModel);
+          var endereco = await _context.AddressModel.FindAsync(ticketModel.Origem.Id);
+          if(endereco == null)
+          {
+                //return NoContent();
+                _context.AddressModel.Add(ticketModel.Origem);
+                endereco = ticketModel.Origem;
+          }
+          
+          ticketModel.Origem = endereco;
+
+          endereco = await _context.AddressModel.FindAsync(ticketModel.Destino.Id);
+          if(endereco == null)
+          {
+                _context.AddressModel.Add(ticketModel.Destino);
+                endereco = ticketModel.Destino;
+          }
+
+          ticketModel.Destino = endereco;
+          
+         var cliente = await _context.ClientModel.FindAsync(ticketModel.Cliente.Id);
+         if(cliente == null)
+         {
+             _context.ClientModel.Add(ticketModel.Cliente);
+             cliente = ticketModel.Cliente;
+         }
+
+         ticketModel.Cliente = cliente;
+
+          _context.TicketModel.Add(ticketModel);
+          await _context.SaveChangesAsync();
+
+          return CreatedAtAction("GetTicketModel", new { id = ticketModel.Id }, ticketModel);
         }
 
         // DELETE: api/Ticket/5

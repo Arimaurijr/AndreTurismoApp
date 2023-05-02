@@ -29,7 +29,7 @@ namespace AndreTurismoApp.HotelService.Controllers
           {
               return NotFound();
           }
-            return await _context.HotelModel.ToListAsync();
+            return await _context.HotelModel.Include(c => c.Endereco).Include(c => c.Endereco.Cidade).ToListAsync();
         }
 
         // GET: api/Hotel/5
@@ -90,6 +90,32 @@ namespace AndreTurismoApp.HotelService.Controllers
           {
               return Problem("Entity set 'AndreTurismoAppHotelServiceContext.HotelModel'  is null.");
           }
+
+          var endereco = await _context.AddressModel.FindAsync(hotelModel.Endereco.Id);
+
+          if (endereco == null)
+          {
+                //return NoContent();
+             _context.AddressModel.Add(hotelModel.Endereco);
+             endereco = hotelModel.Endereco;
+
+          }
+
+            hotelModel.Endereco = endereco;
+
+            /*
+             var endereco = await _context.EnderecoModel.FindAsync(clientModel.Endereco.Id);
+            if(endereco == null)
+            {
+                  //return NoContent();
+                  _context.EnderecoModel.Add(clientModel.Endereco);
+                  endereco = clientModel.Endereco;
+            }
+
+            clientModel.Endereco = endereco; 
+
+
+             */
             _context.HotelModel.Add(hotelModel);
             await _context.SaveChangesAsync();
 

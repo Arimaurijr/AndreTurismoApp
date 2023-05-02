@@ -16,7 +16,7 @@ namespace AndreTurismoAppModels
 
         public readonly static string UPDATE = "update client set @coluna = '@valor' ";
         */
-        [Key]
+        //[Key]
         public int Id { get; set; }
         public string Nome { get; set; }
         public string Telefone { get; set; }
