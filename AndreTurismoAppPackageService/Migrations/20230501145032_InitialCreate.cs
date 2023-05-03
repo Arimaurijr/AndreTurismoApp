@@ -112,7 +112,7 @@ namespace AndreTurismoAppPackageService.Migrations
                         column: x => x.DestinoId,
                         principalTable: "AddressModel",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_TicketModel_AddressModel_OrigemId",
                         column: x => x.OrigemId,

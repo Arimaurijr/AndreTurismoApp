@@ -90,10 +90,70 @@ namespace AndreTurismoAppPackageService.Controllers
           {
               return Problem("Entity set 'AndreTurismoAppPackageServiceContext.PackageModel'  is null.");
           }
-            _context.PackageModel.Add(packageModel);
-            await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetPackageModel", new { id = packageModel.Id }, packageModel);
+          //Cliente
+          //Endereco
+
+          var endereco = await _context.AddressModel.FindAsync(packageModel.Cliente_Pacote.Endereco.Id);
+          if (endereco == null)
+          {
+                _context.AddressModel.Add(packageModel.Cliente_Pacote.Endereco);
+                endereco = packageModel.Cliente_Pacote.Endereco;
+          }
+           packageModel.Cliente_Pacote.Endereco = endereco;
+         
+          var cliente = await _context.ClientModel.FindAsync(packageModel.Cliente_Pacote.Id);
+          if (cliente == null)
+          {
+                _context.ClientModel.Add(packageModel.Cliente_Pacote);
+                cliente = packageModel.Cliente_Pacote;
+          }
+          packageModel.Cliente_Pacote = cliente;
+
+        ///hotel 
+        // endereco hotel
+         endereco = await _context.AddressModel.FindAsync(packageModel.Hotel_Pacote.Endereco.Id);
+         if(endereco == null)
+         {
+                _context.AddressModel.Add(packageModel.Hotel_Pacote.Endereco);
+                endereco = packageModel.Hotel_Pacote.Endereco;
+         }
+         packageModel.Hotel_Pacote.Endereco = endereco;
+
+
+        var hotel = await _context.HotelModel.FindAsync(packageModel.Hotel_Pacote.Id);
+        if(hotel == null)
+        {
+             _context.HotelModel.Add(packageModel.Hotel_Pacote);
+             hotel = packageModel.Hotel_Pacote;
+        }
+        packageModel.Hotel_Pacote = hotel;
+
+        //passagem
+        // destino
+
+        var destino = await _context.AddressModel.FindAsync(packageModel.Passagem_Pacote.Destino.Id);
+        if(destino == null)
+        {
+                _context.AddressModel.Add(packageModel.Passagem_Pacote.Destino);
+                destino = packageModel.Passagem_Pacote.Destino;
+        }
+        packageModel.Passagem_Pacote.Destino = destino;
+
+        var origem = await _context.AddressModel.FindAsync(packageModel.Passagem_Pacote.Origem.Id); 
+        if(origem == null) 
+        {
+                _context.AddressModel.Add(packageModel.Passagem_Pacote.Origem);
+                origem = packageModel.Passagem_Pacote.Origem;
+        }
+        packageModel.Passagem_Pacote.Origem = origem;
+
+
+         _context.PackageModel.Add(packageModel);
+         await _context.SaveChangesAsync();
+
+         return CreatedAtAction("GetPackageModel", new { id = packageModel.Id }, packageModel);
+
         }
 
         // DELETE: api/Package/5
