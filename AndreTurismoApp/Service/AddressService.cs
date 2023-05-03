@@ -9,6 +9,7 @@ namespace AndreTurismoApp.Service
     {
         static readonly HttpClient endereco = new HttpClient();
         public async Task<List<AddressModel>> GetAddress()
+
         {
             try
             {
