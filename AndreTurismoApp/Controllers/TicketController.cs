@@ -66,6 +66,7 @@ namespace AndreTurismoApp.Controllers
                     ticketmodel.Destino.Cidade.Id = 0;
                 }
 
+                /*
                 var cliente = ticketmodel.Cliente;
                 if(_client.GetClientID(cliente.Id).Result == null)
                 {
@@ -75,6 +76,8 @@ namespace AndreTurismoApp.Controllers
                 {
                    ticketmodel.Cliente.Id = 0;
                 }
+                */
+
 
                 _ticket.PostTicket(ticketmodel);
             }

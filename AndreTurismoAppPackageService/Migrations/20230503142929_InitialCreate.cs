@@ -34,7 +34,7 @@ namespace AndreTurismoAppPackageService.Migrations
                     Bairro = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CEP = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Complemento = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CidadeId = table.Column<int>(type: "int", nullable: false),
+                    CidadeId = table.Column<int>(type: "int", nullable: true),
                     Data_Cadastro_Endereco = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -45,7 +45,7 @@ namespace AndreTurismoAppPackageService.Migrations
                         column: x => x.CidadeId,
                         principalTable: "CityModel",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -67,7 +67,7 @@ namespace AndreTurismoAppPackageService.Migrations
                         column: x => x.EnderecoId,
                         principalTable: "AddressModel",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -89,7 +89,7 @@ namespace AndreTurismoAppPackageService.Migrations
                         column: x => x.EnderecoId,
                         principalTable: "AddressModel",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -112,19 +112,19 @@ namespace AndreTurismoAppPackageService.Migrations
                         column: x => x.DestinoId,
                         principalTable: "AddressModel",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_TicketModel_AddressModel_OrigemId",
                         column: x => x.OrigemId,
                         principalTable: "AddressModel",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_TicketModel_ClientModel_ClienteId",
                         column: x => x.ClienteId,
                         principalTable: "ClientModel",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -147,19 +147,19 @@ namespace AndreTurismoAppPackageService.Migrations
                         column: x => x.Cliente_PacoteId,
                         principalTable: "ClientModel",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_PackageModel_HotelModel_Hotel_PacoteId",
                         column: x => x.Hotel_PacoteId,
                         principalTable: "HotelModel",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_PackageModel_TicketModel_Passagem_PacoteId",
                         column: x => x.Passagem_PacoteId,
                         principalTable: "TicketModel",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(

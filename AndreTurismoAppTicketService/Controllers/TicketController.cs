@@ -29,7 +29,10 @@ namespace AndreTurismoAppTicketService.Controllers
           {
               return NotFound();
           }
-            return await _context.TicketModel.ToListAsync();
+            //return await _context.TicketModel.ToListAsync();
+            var context = _context.TicketModel.Include(ticket => ticket.Origem).Include(ticket => ticket.Destino);
+
+            return context.ToList();
         }
 
         // GET: api/Ticket/5
@@ -40,13 +43,15 @@ namespace AndreTurismoAppTicketService.Controllers
           {
               return NotFound();
           }
-            var ticketModel = await _context.TicketModel.FindAsync(id);
+            //var ticketModel = await _context.TicketModel.FindAsync(id);
+            var ticketModel  = await _context.TicketModel.Include(ticket => ticket.Origem).Include(ticket => ticket.Destino).Where(Ticket => Ticket.Id == id).FirstOrDefaultAsync();
 
             if (ticketModel == null)
             {
                 return NotFound();
             }
 
+            //var context = _context.TicketModel.Include(ticket => ticket.Origem).Include(ticket => ticket.Destino).Where(Ticket => Ticket.Id == id);
             return ticketModel;
         }
 
@@ -110,6 +115,7 @@ namespace AndreTurismoAppTicketService.Controllers
 
           ticketModel.Destino = endereco;
           
+        /*
          var cliente = await _context.ClientModel.FindAsync(ticketModel.Cliente.Id);
          if(cliente == null)
          {
@@ -118,6 +124,7 @@ namespace AndreTurismoAppTicketService.Controllers
          }
 
          ticketModel.Cliente = cliente;
+        */
 
           _context.TicketModel.Add(ticketModel);
           await _context.SaveChangesAsync();

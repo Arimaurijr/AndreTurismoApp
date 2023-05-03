@@ -31,7 +31,7 @@ namespace AndreTurismoAppClientService.Controllers
             }
             try
             {
-                var client = await _context.ClientModel.Include(c => c.Endereco).Include(c=> c.Endereco.Cidade).ToListAsync();
+                var client = await _context.ClientModel.Include(c => c.Endereco).ThenInclude(c=> c.Cidade).ToListAsync();
                 return client;
             }
             catch(Exception ex) 
@@ -50,7 +50,9 @@ namespace AndreTurismoAppClientService.Controllers
           {
               return NotFound();
           }
-            var clientModel = await _context.ClientModel.FindAsync(id);
+            //var clientModel = await _context.ClientModel.FindAsync(id);
+
+            var clientModel = await _context.ClientModel.Include(c => c.Endereco).Where(c => c.Id == id).FirstOrDefaultAsync();
 
             if (clientModel == null)
             {

@@ -29,7 +29,7 @@ namespace AndreTurismoApp.HotelService.Controllers
           {
               return NotFound();
           }
-            return await _context.HotelModel.Include(c => c.Endereco).Include(c => c.Endereco.Cidade).ToListAsync();
+            return await _context.HotelModel.Include(c => c.Endereco).ThenInclude(c => c.Cidade).ToListAsync();
         }
 
         // GET: api/Hotel/5

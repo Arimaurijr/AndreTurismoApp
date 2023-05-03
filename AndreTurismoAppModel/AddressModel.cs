@@ -30,7 +30,7 @@ namespace AndreTurismoAppModels
         public string Bairro { get; set; }
         public string CEP { get; set; }
         public string Complemento { get; set; }
-        public CityModel Cidade { get; set; }
+        public CityModel? Cidade { get; set; }
         public DateTime Data_Cadastro_Endereco { get; set; }
 
         public override string ToString()

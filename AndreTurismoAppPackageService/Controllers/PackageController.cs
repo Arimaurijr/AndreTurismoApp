@@ -29,7 +29,10 @@ namespace AndreTurismoAppPackageService.Controllers
           {
               return NotFound();
           }
-            return await _context.PackageModel.ToListAsync();
+
+            return await _context.PackageModel.Include(Package => Package.Cliente_Pacote).
+            Include(package => package.Hotel_Pacote).
+            Include(package => package.Passagem_Pacote).ToListAsync();
         }
 
         // GET: api/Package/5
@@ -40,7 +43,9 @@ namespace AndreTurismoAppPackageService.Controllers
           {
               return NotFound();
           }
-            var packageModel = await _context.PackageModel.FindAsync(id);
+            var packageModel  = await _context.PackageModel.Include(c => c.Cliente_Pacote).
+                Include(c => c.Hotel_Pacote).
+                Include(c => c.Passagem_Pacote).Where(c => c.Id == id).FirstOrDefaultAsync();
 
             if (packageModel == null)
             {
@@ -91,63 +96,98 @@ namespace AndreTurismoAppPackageService.Controllers
               return Problem("Entity set 'AndreTurismoAppPackageServiceContext.PackageModel'  is null.");
           }
 
-          //Cliente
-          //Endereco
-
-          var endereco = await _context.AddressModel.FindAsync(packageModel.Cliente_Pacote.Endereco.Id);
-          if (endereco == null)
-          {
-                _context.AddressModel.Add(packageModel.Cliente_Pacote.Endereco);
-                endereco = packageModel.Cliente_Pacote.Endereco;
-          }
-           packageModel.Cliente_Pacote.Endereco = endereco;
-         
           var cliente = await _context.ClientModel.FindAsync(packageModel.Cliente_Pacote.Id);
           if (cliente == null)
           {
                 _context.ClientModel.Add(packageModel.Cliente_Pacote);
                 cliente = packageModel.Cliente_Pacote;
           }
-          packageModel.Cliente_Pacote = cliente;
+            packageModel.Cliente_Pacote = cliente;
 
-        ///hotel 
-        // endereco hotel
-         endereco = await _context.AddressModel.FindAsync(packageModel.Hotel_Pacote.Endereco.Id);
-         if(endereco == null)
-         {
-                _context.AddressModel.Add(packageModel.Hotel_Pacote.Endereco);
-                endereco = packageModel.Hotel_Pacote.Endereco;
-         }
-         packageModel.Hotel_Pacote.Endereco = endereco;
+          var hotel = await _context.HotelModel.FindAsync(packageModel.Hotel_Pacote.Id);
+          if (hotel == null)
+          {
+                _context.HotelModel.Add(packageModel.Hotel_Pacote);
+                hotel = packageModel.Hotel_Pacote;
+          }
+            packageModel.Hotel_Pacote = hotel;
+
+          var passagem = await _context.TicketModel.FindAsync(packageModel.Passagem_Pacote.Id);
+          if (passagem == null)
+          {
+                _context.TicketModel.Add(packageModel.Passagem_Pacote);
+                passagem = packageModel.Passagem_Pacote;
+          }
+            packageModel.Passagem_Pacote = passagem;
+
+            //Cliente
+            //Endereco
+
+            /*
+            var endereco = await _context.AddressModel.FindAsync(packageModel.Cliente_Pacote.Endereco.Id);
+            if (endereco == null)
+            {
+                  _context.AddressModel.Add(packageModel.Cliente_Pacote.Endereco);
+                  endereco = packageModel.Cliente_Pacote.Endereco;
+            }
+             packageModel.Cliente_Pacote.Endereco = endereco;
+
+            var cliente = await _context.ClientModel.FindAsync(packageModel.Cliente_Pacote.Id);
+            if (cliente == null)
+            {
+                  _context.ClientModel.Add(packageModel.Cliente_Pacote);
+                  cliente = packageModel.Cliente_Pacote;
+            }
+            packageModel.Cliente_Pacote = cliente;
+
+          ///hotel 
+          // endereco hotel
+           endereco = await _context.AddressModel.FindAsync(packageModel.Hotel_Pacote.Endereco.Id);
+           if(endereco == null)
+           {
+                  _context.AddressModel.Add(packageModel.Hotel_Pacote.Endereco);
+                  endereco = packageModel.Hotel_Pacote.Endereco;
+           }
+           packageModel.Hotel_Pacote.Endereco = endereco;
 
 
-        var hotel = await _context.HotelModel.FindAsync(packageModel.Hotel_Pacote.Id);
-        if(hotel == null)
-        {
-             _context.HotelModel.Add(packageModel.Hotel_Pacote);
-             hotel = packageModel.Hotel_Pacote;
-        }
-        packageModel.Hotel_Pacote = hotel;
+          var hotel = await _context.HotelModel.FindAsync(packageModel.Hotel_Pacote.Id);
+          if(hotel == null)
+          {
+               _context.HotelModel.Add(packageModel.Hotel_Pacote);
+               hotel = packageModel.Hotel_Pacote;
+          }
+          packageModel.Hotel_Pacote = hotel;
 
-        //passagem
-        // destino
+          //passagem
+          // destino
+          var passagem = await _context.TicketModel.FindAsync(packageModel.Passagem_Pacote.Id);
 
-        var destino = await _context.AddressModel.FindAsync(packageModel.Passagem_Pacote.Destino.Id);
-        if(destino == null)
-        {
-                _context.AddressModel.Add(packageModel.Passagem_Pacote.Destino);
-                destino = packageModel.Passagem_Pacote.Destino;
-        }
-        packageModel.Passagem_Pacote.Destino = destino;
+          if(passagem == null) 
+          {
+                  _context.TicketModel.Add(packageModel.Passagem_Pacote);
+                  passagem = packageModel.Passagem_Pacote;
+          }
+          packageModel.Passagem_Pacote = passagem;
 
-        var origem = await _context.AddressModel.FindAsync(packageModel.Passagem_Pacote.Origem.Id); 
-        if(origem == null) 
-        {
-                _context.AddressModel.Add(packageModel.Passagem_Pacote.Origem);
-                origem = packageModel.Passagem_Pacote.Origem;
-        }
-        packageModel.Passagem_Pacote.Origem = origem;
 
+          var destino = await _context.AddressModel.FindAsync(packageModel.Passagem_Pacote.Destino.Id);
+          if(destino == null)
+          {
+                  _context.AddressModel.Add(packageModel.Passagem_Pacote.Destino);
+                  destino = packageModel.Passagem_Pacote.Destino;
+          }
+          packageModel.Passagem_Pacote.Destino = destino;
+
+          var origem = await _context.AddressModel.FindAsync(packageModel.Passagem_Pacote.Origem.Id); 
+          if(origem == null) 
+          {
+                  _context.AddressModel.Add(packageModel.Passagem_Pacote.Origem);
+                  origem = packageModel.Passagem_Pacote.Origem;
+          }
+          packageModel.Passagem_Pacote.Origem = origem;
+
+          */
 
          _context.PackageModel.Add(packageModel);
          await _context.SaveChangesAsync();

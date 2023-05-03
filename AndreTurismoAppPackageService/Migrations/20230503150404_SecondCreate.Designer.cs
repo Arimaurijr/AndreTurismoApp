@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AndreTurismoAppPackageService.Migrations
 {
     [DbContext(typeof(AndreTurismoAppPackageServiceContext))]
-    [Migration("20230501145032_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20230503150404_SecondCreate")]
+    partial class SecondCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -40,7 +40,7 @@ namespace AndreTurismoAppPackageService.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CidadeId")
+                    b.Property<int?>("CidadeId")
                         .HasColumnType("int");
 
                     b.Property<string>("Complemento")
@@ -183,9 +183,6 @@ namespace AndreTurismoAppPackageService.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("ClienteId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("Data")
                         .HasColumnType("datetime2");
 
@@ -200,8 +197,6 @@ namespace AndreTurismoAppPackageService.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ClienteId");
-
                     b.HasIndex("DestinoId");
 
                     b.HasIndex("OrigemId");
@@ -214,8 +209,7 @@ namespace AndreTurismoAppPackageService.Migrations
                     b.HasOne("AndreTurismoAppModels.CityModel", "Cidade")
                         .WithMany()
                         .HasForeignKey("CidadeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Cidade");
                 });
@@ -225,7 +219,7 @@ namespace AndreTurismoAppPackageService.Migrations
                     b.HasOne("AndreTurismoAppModels.AddressModel", "Endereco")
                         .WithMany()
                         .HasForeignKey("EnderecoId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Endereco");
@@ -236,7 +230,7 @@ namespace AndreTurismoAppPackageService.Migrations
                     b.HasOne("AndreTurismoAppModels.AddressModel", "Endereco")
                         .WithMany()
                         .HasForeignKey("EnderecoId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Endereco");
@@ -247,19 +241,19 @@ namespace AndreTurismoAppPackageService.Migrations
                     b.HasOne("AndreTurismoAppModels.ClientModel", "Cliente_Pacote")
                         .WithMany()
                         .HasForeignKey("Cliente_PacoteId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("AndreTurismoAppModels.HotelModel", "Hotel_Pacote")
                         .WithMany()
                         .HasForeignKey("Hotel_PacoteId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("AndreTurismoAppModels.TicketModel", "Passagem_Pacote")
                         .WithMany()
                         .HasForeignKey("Passagem_PacoteId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Cliente_Pacote");
@@ -271,25 +265,17 @@ namespace AndreTurismoAppPackageService.Migrations
 
             modelBuilder.Entity("AndreTurismoAppModels.TicketModel", b =>
                 {
-                    b.HasOne("AndreTurismoAppModels.ClientModel", "Cliente")
-                        .WithMany()
-                        .HasForeignKey("ClienteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("AndreTurismoAppModels.AddressModel", "Destino")
                         .WithMany()
                         .HasForeignKey("DestinoId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("AndreTurismoAppModels.AddressModel", "Origem")
                         .WithMany()
                         .HasForeignKey("OrigemId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.Navigation("Cliente");
 
                     b.Navigation("Destino");
 
